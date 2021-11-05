@@ -28,11 +28,11 @@ const RESOURCES = {
 // start.
 const CORE = [
   "/",
-"main.dart.js",
-"index.html",
-"assets/NOTICES",
-"assets/AssetManifest.json",
-"assets/FontManifest.json"];
+"https://petra-e-lab.github.io/flutter-web/main.dart.js/main.dart.js",
+"https://petra-e-lab.github.io/flutter-web/main.dart.js/index.html",
+"https://petra-e-lab.github.io/flutter-web/main.dart.js/assets/NOTICES",
+"https://petra-e-lab.github.io/flutter-web/main.dart.js/assets/AssetManifest.json",
+"https://petra-e-lab.github.io/flutter-web/main.dart.js/assets/FontManifest.json"];
 // During install, the TEMP cache is populated with the application shell files.
 self.addEventListener("install", (event) => {
   self.skipWaiting();
