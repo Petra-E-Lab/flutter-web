@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'gen/assets.gen.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
+void _launchURL(String _url) async =>
+    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
+
+const Color primary = Color(0xFF82C0CF);
+const Color secondary = Color(0xFF092026);
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -22,14 +31,13 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.blue,
-        ).copyWith(
-          secondary: Colors.yellow,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          secondary: primary,
+          primary: primary,
         ),
-        textTheme: const TextTheme(bodyText2: TextStyle(color: Colors.purple)),
+        textTheme: const TextTheme(bodyText2: TextStyle(color: Colors.grey)),
       ),
-      home: const MyHomePage(title: 'Hier kommt Flutter'),
+      home: const MyHomePage(title: 'Appbar Title'),
     );
   }
 }
@@ -54,6 +62,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  bool _flag = true;
 
   void _incrementCounter() {
     setState(() {
@@ -78,13 +87,24 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(
-          widget.title,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Image.asset(Assets.images.logo.path),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
+        ),
+        title: const Text(
+          'Flutter App',
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w900,
-            color: Colors.green,
+            color: secondary,
           ),
         ),
       ),
@@ -108,6 +128,19 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            // const AudioWidget(),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: ElevatedButton(
+                onPressed: () => setState(() => _flag = !_flag),
+                child: Text(_flag ? 'Red' : 'Green'),
+                style: ElevatedButton.styleFrom(
+                  primary: _flag
+                      ? Colors.red
+                      : Colors.teal, // This is what you need!
+                ),
+              ),
+            ),
             const Text(
               'You have pushed the button this many times:',
             ),
